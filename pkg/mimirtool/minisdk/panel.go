@@ -27,6 +27,14 @@ const (
 	HeatmapType
 	TimeseriesType
 	GaugeType
+	PieChartType
+	BarChartType
+	CanvasType
+	XyChartType
+	StateTimelineType
+	StatusHistoryType
+	HistogramType
+	GeomapType
 )
 
 type (
@@ -48,6 +56,14 @@ type (
 		*HeatmapPanel
 		*TimeseriesPanel
 		*GaugePanel
+		*PieChartPanel
+		*BarChartPanel
+		*CanvasPanel
+		*XyChartPanel
+		*StateTimelinePanel
+		*StatusHistoryPanel
+		*HistogramPanel
+		*GeomapPanel
 		*CustomPanel
 	}
 	panelType   int8
@@ -89,6 +105,30 @@ type (
 	GaugePanel struct {
 		Targets []Target `json:"targets,omitempty"`
 	}
+	PieChartPanel struct {
+		Targets []Target `json:"targets,omitempty"`
+	}
+	BarChartPanel struct {
+		Targets []Target `json:"targets,omitempty"`
+	}
+	CanvasPanel struct {
+		Targets []Target `json:"targets,omitempty"`
+	}
+	XyChartPanel struct {
+		Targets []Target `json:"targets,omitempty"`
+	}
+	StateTimelinePanel struct {
+		Targets []Target `json:"targets,omitempty"`
+	}
+	StatusHistoryPanel struct {
+		Targets []Target `json:"targets,omitempty"`
+	}
+	HistogramPanel struct {
+		Targets []Target `json:"targets,omitempty"`
+	}
+	GeomapPanel struct {
+		Targets []Target `json:"targets,omitempty"`
+	}
 	CustomPanel map[string]interface{}
 )
 
@@ -118,6 +158,22 @@ func (p *Panel) GetTargets() *[]Target {
 		return &p.TimeseriesPanel.Targets
 	case GaugeType:
 		return &p.GaugePanel.Targets
+	case PieChartType:
+		return &p.PieChartPanel.Targets
+	case BarChartType:
+		return &p.BarChartPanel.Targets
+	case CanvasType:
+		return &p.CanvasPanel.Targets
+	case XyChartType:
+		return &p.XyChartPanel.Targets
+	case StateTimelineType:
+		return &p.StateTimelinePanel.Targets
+	case StatusHistoryType:
+		return &p.StatusHistoryPanel.Targets
+	case HistogramType:
+		return &p.HistogramPanel.Targets
+	case GeomapType:
+		return &p.GeomapPanel.Targets
 	default:
 		return nil
 	}
@@ -201,6 +257,54 @@ func (p *Panel) UnmarshalJSON(b []byte) (err error) {
 		p.OfType = GaugeType
 		if err = json.Unmarshal(b, &gauge); err == nil {
 			p.GaugePanel = &gauge
+		}
+	case "piechart":
+		var piechart PieChartPanel
+		p.OfType = PieChartType
+		if err = json.Unmarshal(b, &piechart); err == nil {
+			p.PieChartPanel = &piechart
+		}
+	case "barchart":
+		var barchart BarChartPanel
+		p.OfType = BarChartType
+		if err = json.Unmarshal(b, &barchart); err == nil {
+			p.BarChartPanel = &barchart
+		}
+	case "canvas":
+		var canvas CanvasPanel
+		p.OfType = CanvasType
+		if err = json.Unmarshal(b, &canvas); err == nil {
+			p.CanvasPanel = &canvas
+		}
+	case "xychart":
+		var xychart XyChartPanel
+		p.OfType = XyChartType
+		if err = json.Unmarshal(b, &xychart); err == nil {
+			p.XyChartPanel = &xychart
+		}
+	case "state-timeline":
+		var statetimeline StateTimelinePanel
+		p.OfType = StateTimelineType
+		if err = json.Unmarshal(b, &statetimeline); err == nil {
+			p.StateTimelinePanel = &statetimeline
+		}
+	case "status-history":
+		var statushistory StatusHistoryPanel
+		p.OfType = StatusHistoryType
+		if err = json.Unmarshal(b, &statushistory); err == nil {
+			p.StatusHistoryPanel = &statushistory
+		}
+	case "histogram":
+		var histogram HistogramPanel
+		p.OfType = HistogramType
+		if err = json.Unmarshal(b, &histogram); err == nil {
+			p.HistogramPanel = &histogram
+		}
+	case "geomap":
+		var geomap GeomapPanel
+		p.OfType = GeomapType
+		if err = json.Unmarshal(b, &geomap); err == nil {
+			p.GeomapPanel = &geomap
 		}
 	default:
 		var custom = make(CustomPanel)
